@@ -10,12 +10,16 @@
  * - Utilize a interface IUser para tipar os dados
  */
 
-import { NextApiRequest, NextApiResponse } from 'next/types';
+import api from '../api';
 
-import { IUser } from '@/types/user.d';
-
-export default (req: NextApiRequest, res: NextApiResponse) => {
-	const users: Array<unknown> = [];
-
-	return res.status(500).json(users);
+export const getUsers = (): Promise<any> => {
+	return new Promise((resolve, reject) => {
+		try {
+			const response: any = api.get('/users')
+			resolve(response)
+		} catch (error) {
+			reject(error)
+		}
+	})
 };
+

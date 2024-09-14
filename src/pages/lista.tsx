@@ -10,26 +10,30 @@ import { useEffect, useState } from 'react';
 
 import styles from '@/styles/lista.module.css';
 import { IUser } from '@/types/user';
+import { getUsers } from './api/users';
 
 export default function Lista() {
 	const [users, setUsers] = useState<Array<IUser>>([]);
 
-	async function getUsersList() {
-		try {
-			const response = await fetch('/api/users');
-			const data = await response.json();
-
-			if (!response.ok) throw new Error('Erro ao obter os dados');
-
-			setUsers(data);
-		} catch (error) {
-			console.error(error);
-		}
+	const getUsersList = () => {
+			getUsers()
+			.then((resp: any) => {
+				console.log(resp)
+				if(resp) {
+					setUsers(resp.data)
+					return resp.status(200)
+				}
+			})
+			.catch(error => {
+				console.error('Erro ao obter dados', error);
+			}) 
 	}
 
 	useEffect(() => {
 		getUsersList();
 	}, []);
+
+	
 
 	return (
 		<div className={styles.container}>
@@ -38,7 +42,11 @@ export default function Lista() {
 
 				<div data-list-container>
 					{/* Exemplo */}
-					<div data-list-item>ID 323 - Usuário 323 (user-323@mail.com)</div>
+					{users && users.map((user) => {
+						return (
+							<div key={user.id} data-list-item>{`ID ${user.id} - ${user.name} ${user.id} (${user.email})`}</div>
+						)
+					})}
 				</div>
 			</div>
 		</div>
