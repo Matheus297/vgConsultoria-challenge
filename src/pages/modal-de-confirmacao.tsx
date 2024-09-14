@@ -17,6 +17,33 @@ import { Modal } from '@/components/Modal';
 export default function Home() {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 
+
+	const handleOpenModal = () => {
+		setModalIsOpen(true)
+	}
+
+	const handleCloseModal = () => {
+		setModalIsOpen(false)
+	}
+
+	const renderModalContent = () => {
+		return (
+			<div data-modal-content className={styles['modal-form']}>
+				<form onSubmit={() => false}>
+					<div>
+						<label htmlFor="input-name">Nome</label>
+						<input type="text" id="input-name" placeholder="Insira um nome" />
+					</div>
+
+					<div>
+						<label htmlFor="input-name">E-mail</label>
+						<input type="email" id="input-name" placeholder="Insira um e-mail válido" />
+					</div>
+				</form>
+		</div>
+		)
+	}
+
 	return (
 		<>
 			<main className={styles.container}>
@@ -24,6 +51,16 @@ export default function Home() {
 					Abrir modal de confirmação
 				</button>
 			</main>
+
+			<Modal
+				isOpen={modalIsOpen}
+				title="Confirmação"
+				onClose={handleCloseModal}
+				onConfirm={() => {}}
+				footer={{ confirmText: 'Criar usuário' }}
+			>
+				{renderModalContent()}
+			</Modal>
 
 			{/* Renderizar modal de confirmação */}
 		</>
