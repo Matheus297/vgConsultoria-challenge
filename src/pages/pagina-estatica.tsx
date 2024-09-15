@@ -53,3 +53,17 @@ export default function Lista() {
 		</div>
 	);
 }
+
+
+export const getStaticProps = async() => {
+
+	const response = await fetch('/api/cities/10');
+	const data = await response.json();
+  
+	return {
+	  props: {
+		cities: data,
+	  },
+	  revalidate: 60,
+	};
+  }
