@@ -33,6 +33,10 @@ export default function CicloDeVida({ initialCount }: CicloDeVidaProps) {
 		setShowCounter((prevState) => !prevState);
 	}
 
+	function handleUnmountComponent() {
+		setShowCounter(false)
+	}
+
 	useEffect(() => {
 		window.addEventListener('onCounterMount', (event: CustomEventInit) => {
 			console.log('onCounterMount');
@@ -59,7 +63,7 @@ export default function CicloDeVida({ initialCount }: CicloDeVidaProps) {
 						<h1>Exemplo de Ciclo de vida</h1>
 
 						<div data-content>
-							<Counter initialCount={initialCount} />
+							<Counter initialCount={initialCount} onUnmount={handleUnmountComponent} />
 						</div>
 					</>
 				)}

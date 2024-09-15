@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 
 type CounterProps = {
 	initialCount: number;
+	onUnmount: () => void;
 };
 
-export const Counter: React.FC<CounterProps> = ({ initialCount }) => {
-	const [count, setCount] = useState(initialCount);
+export const Counter: React.FC<CounterProps> = ({ initialCount, onUnmount }: CounterProps) => {
+	const [count, setCount] = useState<number>(initialCount);
 
 	useEffect(() => {
 		console.log('Componente montado!');
@@ -16,8 +17,10 @@ export const Counter: React.FC<CounterProps> = ({ initialCount }) => {
 	}, []);
 
 	useEffect(() => {
-		console.log('Componente atualizado!');
-	});
+		if (count === 10) {
+			onUnmount()
+	  	}
+	}, [count]);
 
 	const handleIncrement = () => {
 		setCount((prevCount) => prevCount + 1);
